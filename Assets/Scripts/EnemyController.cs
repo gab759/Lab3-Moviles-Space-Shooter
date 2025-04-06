@@ -20,15 +20,13 @@ public class EnemyController : MonoBehaviour
         else if (other.CompareTag("Player"))
         {
             Debug.Log("GAAAAAAAAAA");
-            // Intentamos acceder al GyroMovement del jugador
             GyroMovement player = other.GetComponent<GyroMovement>();
 
-            if (player != null)
+            if (other.CompareTag("Player"))
             {
-                player.TakeDamage(damageToPlayer);
+                GameManager.Instance.TakeDamage(damageToPlayer); // ¡Nueva llamada!
+                Destroy(gameObject);
             }
-
-            Destroy(gameObject);
         }
     }
 }

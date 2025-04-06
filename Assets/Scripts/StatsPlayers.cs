@@ -8,4 +8,8 @@ public class StatsPlayers : ScriptableObject
     public float maxHealth = 100f;
     public float speedY = 5f;
     public float scoreSpeed = 1f;
+
+    public GameObject navePrefab;
+    public static StatsPlayers naveSeleccionada;
+
 }

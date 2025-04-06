@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 233923909}
   - component: {fileID: 233923908}
   m_Layer: 5
-  m_Name: ButtonPlayer2 (1)
+  m_Name: ButtonPlayer3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,7 +413,10 @@ MonoBehaviour:
   - {fileID: 1818100947}
   - {fileID: 1223506909}
   - {fileID: 1776661533}
-  botonConfirmar: {fileID: 0}
+  botonesNaves:
+  - {fileID: 746878089}
+  - {fileID: 1256640980}
+  - {fileID: 233923908}
 --- !u!4 &463885436
 Transform:
   m_ObjectHideFlags: 0

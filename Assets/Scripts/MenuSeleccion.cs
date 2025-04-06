@@ -1,38 +1,40 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 public class MenuSeleccion : MonoBehaviour
 {
-    public StatsPlayers[] navesStats; 
+    public StatsPlayers[] navesStats;
     public TextMeshProUGUI[] statsTexts;
-    public Button botonConfirmar; 
-
-    private int naveSeleccionadaIndex = 0;
-
+    public Button[] botonesNaves;
+    int index;
     void Start()
     {
-        for (int i = 0; i < navesStats.Length; i++)
+
+        for (int i = 0; i < 3; i++)
         {
-            ActualizarStatsTexto(i);
+             index = i;
+
+            statsTexts[i].text =
+                "Life: " + navesStats[i].maxHealth +
+                "\nSpeed: " + navesStats[i].speedY +
+                "\nScore: " + navesStats[i].scoreSpeed;
+
+            botonesNaves[i].onClick.AddListener(() => SeleccionarNave(index));
+        }
+    }
+
+    void SeleccionarNave(int indexNave)
+    {
+        StatsPlayers selectedStats = navesStats[indexNave];
+        StatsPlayers.naveSeleccionada = selectedStats;
+
+        // Actualizar GameManager ANTES de cambiar de escena
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.playerStats = selectedStats; // ¡Actualiza los stats!
         }
 
-        botonConfirmar.onClick.AddListener(() =>
-        {
-            PlayerPrefs.SetInt("NaveSeleccionadaIndex", naveSeleccionadaIndex);
-            SceneManager.LoadScene("MainGame");
-        });
-    }
-
-    void ActualizarStatsTexto(int indexNave)
-    {
-        StatsPlayers stats = navesStats[indexNave];
-        statsTexts[indexNave].text =
-            $"Life: {stats.maxHealth}\nSpeed: {stats.speedY}\nScore Speed: {stats.scoreSpeed}";
-    }
-
-    public void SeleccionarNave(int index)
-    {
-        naveSeleccionadaIndex = index;
+        SceneManager.LoadScene("MainGame");
     }
 }

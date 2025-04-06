@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 60
   speedY: 12
-  scoreSpeed: 20
-  naveSprite: {fileID: 0}
-  navePrefab: {fileID: 0}
+  scoreSpeed: 200
+  navePrefab: {fileID: 7082669484149405352, guid: 9e3d89310bc1ada47ad615e47ad40545, type: 3}
