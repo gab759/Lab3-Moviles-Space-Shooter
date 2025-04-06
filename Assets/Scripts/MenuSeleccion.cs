@@ -7,13 +7,12 @@ public class MenuSeleccion : MonoBehaviour
     public StatsPlayers[] navesStats;
     public TextMeshProUGUI[] statsTexts;
     public Button[] botonesNaves;
-    int index;
     void Start()
     {
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < navesStats.Length; i++)
         {
-             index = i;
+            int index = i;
 
             statsTexts[i].text =
                 "Life: " + navesStats[i].maxHealth +

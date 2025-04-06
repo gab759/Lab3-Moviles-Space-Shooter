@@ -15,4 +15,4 @@ MonoBehaviour:
   maxHealth: 100
   speedY: 5
   scoreSpeed: 10
-  navePrefab: {fileID: 2058693305916410288, guid: 25176dd3baca1b944a257a16e1888da8, type: 3}
+  navePrefab: {fileID: 850901370360731204, guid: b448809ed814e894f86c09cecb247966, type: 3}
