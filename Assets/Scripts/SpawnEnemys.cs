@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpawnEnemys : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public EnemyPool enemyPool;
     [SerializeField] float spawnInterval = 2f;
 
     private float minY = -3.48f;
@@ -12,7 +12,6 @@ public class SpawnEnemys : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-
         if (timer >= spawnInterval)
         {
             SpawnEnemy();
@@ -22,9 +21,8 @@ public class SpawnEnemys : MonoBehaviour
 
     void SpawnEnemy()
     {
-        float randomY = Random.Range(minY, maxY);
-        Vector2 spawnPosition = new Vector2(transform.position.x, randomY);
-
-        Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        int randomPoolIndex = Random.Range(0, enemyPool.pools.Length);
+        Vector2 spawnPosition = new Vector2(transform.position.x, Random.Range(minY, maxY));
+        enemyPool.GetEnemy(randomPoolIndex, spawnPosition);
     }
 }
