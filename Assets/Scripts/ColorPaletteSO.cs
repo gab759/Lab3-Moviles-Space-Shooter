@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ColorPaletteSO", menuName = "Scriptable Objects/ColorPaletteSO")]
 public class ColorPaletteSO : ScriptableObject
 {
-     [Header("UI Colors")]
+    [Header("UI Colors")]
     public Color primaryColor = Color.white;
     public Color secondaryColor = Color.gray;
     public Color textColor = Color.black;

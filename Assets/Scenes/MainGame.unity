@@ -957,7 +957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 2031106588}
   player: {fileID: 3538283898409648514}
-  playerStats: {fileID: 11400000, guid: 48fb13477e0e4264c97a0d2b7318b3ed, type: 2}
+  playerStats: {fileID: 0}
   currentHealth: 0
 --- !u!4 &1595406150
 Transform:
@@ -1374,6 +1374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758e7e90a01da72408c728bed81d5a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPosition: {x: -8.54, y: 0.52}
 --- !u!4 &2101270881
 Transform:
   m_ObjectHideFlags: 0

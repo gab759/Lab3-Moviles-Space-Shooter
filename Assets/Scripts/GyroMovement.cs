@@ -4,7 +4,7 @@ public class GyroMovement : MonoBehaviour
 {
     public StatsPlayers stats;
     private Gyroscope gyro;
-    private bool gyroEnabled;
+    private bool gyroEnabled = false;
 
     private float minY = -3.48f;
     private float maxY = 5.48f;
@@ -27,7 +27,6 @@ public class GyroMovement : MonoBehaviour
     {
         if (!gyroEnabled) return;
 
-        // Movimiento vertical basado en giroscopio.
         float tilt = gyro.rotationRateUnbiased.x;
         Vector3 newPosition = transform.position + Vector3.up * tilt * stats.speedY * Time.deltaTime;
         newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);

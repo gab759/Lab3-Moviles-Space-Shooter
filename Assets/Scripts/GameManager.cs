@@ -34,18 +34,22 @@ public class GameManager : MonoBehaviour
             playerStats = StatsPlayers.naveSeleccionada;
         }
 
-        // Configurar al jugador
         if (player != null && playerStats != null)
         {
-            player.stats = playerStats; // Asignar SO al GyroMovement
+            player.stats = playerStats;
             currentHealth = playerStats.maxHealth;
             uiManager.UpdateHealth(currentHealth);
+
+            SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.color = playerStats.shipColor;
+            }
         }
     }
 
     void Update()
     {
-        // Actualizar puntaje basado en el SO.
         score += playerStats.scoreSpeed * Time.deltaTime;
         uiManager.UpdateScore(score);
         finalScore = Mathf.FloorToInt(score);

@@ -16,3 +16,4 @@ MonoBehaviour:
   speedY: 5
   scoreSpeed: 10
   navePrefab: {fileID: 850901370360731204, guid: b448809ed814e894f86c09cecb247966, type: 3}
+  shipColor: {r: 1, g: 0, b: 0, a: 1}

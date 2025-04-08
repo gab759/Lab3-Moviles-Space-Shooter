@@ -1,15 +1,16 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "StatsPlayers", menuName = "Scriptable Objects/StatsPlayers")]
 public class StatsPlayers : ScriptableObject
 {
-    [Header("Stats")]
+    [Header("Stats de la Nave")]
     public float maxHealth = 100f;
     public float speedY = 5f;
     public float scoreSpeed = 1f;
 
+    [Header("Visuales")]
     public GameObject navePrefab;
-    public static StatsPlayers naveSeleccionada;
+    public Color shipColor = Color.white;
 
+    public static StatsPlayers naveSeleccionada;
 }
