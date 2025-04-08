@@ -7,7 +7,7 @@ public class ChangeScene : MonoBehaviour
 
     void Update()
     {
-        if (!hasChangedScene && GameManager.Instance != null && GameManager.Instance.currentHealth <= 0f)
+        if (!hasChangedScene && GameManager.Instance != null && GameManager.Instance.CurrentHealth <= 0f)
         {
             hasChangedScene = true;
             SceneManager.LoadScene("Results");

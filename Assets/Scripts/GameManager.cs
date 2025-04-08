@@ -9,12 +9,13 @@ public class GameManager : MonoBehaviour
     public GyroMovement player;
     public StatsPlayers playerStats;
 
-    [Header("Variables")]
-    public float currentHealth;
+    [Header("Datos del Jugador")]
+    public PlayerDataSO playerData;
+
     private float score;
     public static int finalScore;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     void Start()
     {
         if (StatsPlayers.naveSeleccionada != null)
@@ -34,31 +35,50 @@ public class GameManager : MonoBehaviour
             playerStats = StatsPlayers.naveSeleccionada;
         }
 
-        if (player != null && playerStats != null)
+        if (playerStats != null && playerData != null)
         {
-            player.stats = playerStats;
-            currentHealth = playerStats.maxHealth;
-            uiManager.UpdateHealth(currentHealth);
+            playerData.currentHealth = playerStats.maxHealth;
+            playerData.currentScore = 0f;
 
-            SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
-            if (sr != null)
+            if (player != null)
             {
-                sr.color = playerStats.shipColor;
+                player.stats = playerStats;
+                SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    sr.color = playerStats.shipColor;
+                }
             }
+            
+            uiManager.UpdateHealth(playerData.currentHealth);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerDataSO o playerStats es nulo. Verifica que la selección de nave se haya realizado correctamente.");
         }
     }
-
+    
     void Update()
     {
-        score += playerStats.scoreSpeed * Time.deltaTime;
-        uiManager.UpdateScore(score);
-        finalScore = Mathf.FloorToInt(score);
+        if (playerData != null && playerStats != null)
+        {
+            playerData.currentScore += playerStats.scoreSpeed * Time.deltaTime;
+            uiManager.UpdateScore(playerData.currentScore);
+            finalScore = Mathf.FloorToInt(playerData.currentScore);
+        }
     }
-
+    public float CurrentHealth 
+    { 
+        get { return (playerData != null) ? playerData.currentHealth : 0f; } 
+    }
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Max(currentHealth, 0);
-        uiManager.UpdateHealth(currentHealth);
+        if (playerData != null)
+        {
+            playerData.currentHealth -= damage;
+            if (playerData.currentHealth < 0)
+                playerData.currentHealth = 0;
+            uiManager.UpdateHealth(playerData.currentHealth);
+        }
     }
 }

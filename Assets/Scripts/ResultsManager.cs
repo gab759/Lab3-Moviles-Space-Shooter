@@ -10,19 +10,18 @@ public class ResultsManager : MonoBehaviour
     {
         finalScoreText.text = "Final Score: " + GameManager.finalScore.ToString();
     }
+    
     public void ExitGame()
     {
         UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
     }
 
     public void GoToCharacterSelection()
     {
         if (GameManager.Instance != null)
         {
-            //LEE ESTO
-            // Destruye el GameManager actual y limpia la instancia 
             Destroy(GameManager.Instance.gameObject);
-            GameManager.Instance = null; // Importante para evitar referencia fantasma
         }
         SceneManager.LoadScene("CharacterSelection");
     }
