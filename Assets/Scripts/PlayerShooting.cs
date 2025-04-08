@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
+    [Header("Referencias")]
     public StatsPlayers stats;
-
-    [Header("Disparo")]
-    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
 
+    private BulletPool bulletPool;
     private float nextFireTime = 0f;
+
+    public void SetBulletPool(BulletPool pool)
+    {
+        bulletPool = pool;
+    }
 
     void Update()
     {
@@ -20,7 +24,8 @@ public class PlayerShooting : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            if ((touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved) && Time.time >= nextFireTime)
+            if ((touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
+                && Time.time >= nextFireTime)
             {
                 Shoot();
                 nextFireTime = Time.time + stats.fireRate;
@@ -36,22 +41,17 @@ public class PlayerShooting : MonoBehaviour
 
     private void Shoot()
     {
-        if (bulletPrefab == null || firePoint == null)
+        if (bulletPool == null || firePoint == null)
         {
-            Debug.LogError("BulletPrefab o FirePoint no están asignados en el PlayerShooting.");
+            Debug.LogWarning("Referencias faltantes en PlayerShooting");
             return;
         }
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-
+        GameObject bullet = bulletPool.GetBullet(firePoint.position, firePoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.linearVelocity = firePoint.right * stats.bulletSpeed;
-        }
-        else
-        {
-            Debug.LogError("El prefab de bullet no tiene asignado un Rigidbody2D.");
+            rb.velocity = firePoint.right * stats.bulletSpeed;
         }
     }
 }
