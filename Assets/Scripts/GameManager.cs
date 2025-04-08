@@ -11,9 +11,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Datos del Jugador")]
     public PlayerDataSO playerData;
-
-    private float score;
-    public static int finalScore;
+    public ScoreRecordSO scoreRecord;
 
     private void Awake()
     {
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     void Start()
     {
         if (StatsPlayers.naveSeleccionada != null)
@@ -49,28 +47,25 @@ public class GameManager : MonoBehaviour
                     sr.color = playerStats.shipColor;
                 }
             }
-            
+
             uiManager.UpdateHealth(playerData.currentHealth);
         }
-        else
-        {
-            Debug.LogWarning("PlayerDataSO o playerStats es nulo. Verifica que la selección de nave se haya realizado correctamente.");
-        }
     }
-    
+
     void Update()
     {
         if (playerData != null && playerStats != null)
         {
             playerData.currentScore += playerStats.scoreSpeed * Time.deltaTime;
             uiManager.UpdateScore(playerData.currentScore);
-            finalScore = Mathf.FloorToInt(playerData.currentScore);
         }
     }
-    public float CurrentHealth 
-    { 
-        get { return (playerData != null) ? playerData.currentHealth : 0f; } 
+
+    public float CurrentHealth
+    {
+        get { return (playerData != null) ? playerData.currentHealth : 0f; }
     }
+
     public void TakeDamage(int damage)
     {
         if (playerData != null)
@@ -78,7 +73,17 @@ public class GameManager : MonoBehaviour
             playerData.currentHealth -= damage;
             if (playerData.currentHealth < 0)
                 playerData.currentHealth = 0;
+
             uiManager.UpdateHealth(playerData.currentHealth);
+        }
+    }
+
+    public void AddPoints(float points)
+    {
+        if (playerData != null)
+        {
+            playerData.currentScore += points;
+            uiManager.UpdateScore(playerData.currentScore);
         }
     }
 }

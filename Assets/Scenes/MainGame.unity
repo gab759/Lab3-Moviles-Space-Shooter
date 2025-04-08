@@ -665,6 +665,7 @@ MonoBehaviour:
   speed: 5
   damageToPlayer: 20
   obstacle: 1
+  scoreValue: 50
   enemyPool: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
@@ -933,6 +934,7 @@ MonoBehaviour:
   player: {fileID: 3538283898409648514}
   playerStats: {fileID: 0}
   playerData: {fileID: 11400000, guid: 3b6d6f2daf656c544a482d512cea54e6, type: 2}
+  scoreRecord: {fileID: 11400000, guid: 693752dd78a055f4eb1a2a59a449a41f, type: 2}
 --- !u!4 &1595406150
 Transform:
   m_ObjectHideFlags: 0
