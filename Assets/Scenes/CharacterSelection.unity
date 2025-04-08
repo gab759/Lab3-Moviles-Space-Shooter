@@ -598,10 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorPalette: {fileID: 11400000, guid: e631f5b44111d334dbc482ae257e6fca, type: 2}
-  primaryUIElements:
-  - {fileID: 998611086}
-  - {fileID: 1260013529}
-  - {fileID: 1518751892}
+  primaryUIElements: []
   secondaryUIElements: []
   textElements:
   - {fileID: 543246670}

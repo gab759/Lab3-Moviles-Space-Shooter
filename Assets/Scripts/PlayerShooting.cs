@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    [Header("Configuración")]
+    public StatsPlayers stats;
+
+    [Header("Disparo")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float fireRate = 0.2f;
-    [SerializeField] private float bulletSpeed = 20f;
 
-    private float nextFireTime;
+    private float nextFireTime = 0f;
 
     void Update()
     {
@@ -20,12 +20,17 @@ public class PlayerShooting : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Began && Time.time >= nextFireTime)
+            if ((touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved) && Time.time >= nextFireTime)
             {
                 Shoot();
-                nextFireTime = Time.time + fireRate;
+                nextFireTime = Time.time + stats.fireRate;
             }
+        }
+
+        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
+        {
+            Shoot();
+            nextFireTime = Time.time + stats.fireRate;
         }
     }
 
@@ -33,20 +38,20 @@ public class PlayerShooting : MonoBehaviour
     {
         if (bulletPrefab == null || firePoint == null)
         {
-            Debug.LogError("¡Falta asignar bulletPrefab o firePoint!");
+            Debug.LogError("BulletPrefab o FirePoint no están asignados en el PlayerShooting.");
             return;
         }
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        
+
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.linearVelocity = firePoint.right * bulletSpeed;
+            rb.linearVelocity = firePoint.right * stats.bulletSpeed;
         }
         else
         {
-            Debug.LogError("¡El prefab necesita un Rigidbody2D!");
+            Debug.LogError("El prefab de bullet no tiene asignado un Rigidbody2D.");
         }
     }
 }

@@ -15,5 +15,7 @@ MonoBehaviour:
   maxHealth: 60
   speedY: 12
   scoreSpeed: 200
+  fireRate: 0.5
+  bulletSpeed: 20
   navePrefab: {fileID: 7082669484149405352, guid: 9e3d89310bc1ada47ad615e47ad40545, type: 3}
   shipColor: {r: 0, g: 0, b: 0, a: 1}
