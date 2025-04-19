@@ -3,69 +3,63 @@ using System.Collections.Generic;
 
 public class EnemyPool : MonoBehaviour
 {
-    [System.Serializable]
-    public class Pool
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private int poolSize = 10;
+
+    private Queue<GameObject> enemyPool = new Queue<GameObject>();
+
+    private void Awake()
     {
-        public GameObject prefab;
-        public int size = 10;
-        [HideInInspector] public List<GameObject> objects = new List<GameObject>();
+        InitializePool();
     }
 
-    public Pool[] pools;
-
-    void Start()
+    private void InitializePool()
     {
-        InitializePools();
-    }
-
-    private void InitializePools()
-    {
-        for (int i = 0; i < pools.Length; i++)
+        for (int i = 0; i < poolSize; i++)
         {
-            Pool pool = pools[i];
-            for (int j = 0; j < pool.size; j++)
-            {
-                GameObject obj = Instantiate(pool.prefab, Vector3.zero, Quaternion.identity);
-                obj.SetActive(false);
-                obj.transform.SetParent(transform);
-
-                EnemyController enemyController = obj.GetComponent<EnemyController>();
-                if (enemyController != null)
-                {
-                    enemyController.enemyPool = this;
-                }
-
-                pool.objects.Add(obj);
-            }
+            CreateNewEnemy();
         }
     }
 
-    public GameObject GetEnemy(int poolIndex, Vector2 position)
+    private GameObject CreateNewEnemy()
     {
-        if (poolIndex < 0 || poolIndex >= pools.Length)
+        GameObject enemy = Instantiate(enemyPrefab, transform);
+        enemy.SetActive(false);
+
+        EnemyController controller = enemy.GetComponent<EnemyController>();
+        if (controller != null)
         {
-            Debug.LogError("Índice de pool inválido");
-            return null;
+            controller.SetReferences(gameManager, this);
         }
 
-        List<GameObject> objects = pools[poolIndex].objects;
-        for (int i = 0; i < objects.Count; i++)
+        enemyPool.Enqueue(enemy);
+        return enemy;
+    }
+
+    public GameObject GetEnemy(Vector3 position, Quaternion rotation)
+    {
+        GameObject enemy;
+
+        if (enemyPool.Count > 0)
         {
-            GameObject obj = objects[i];
-            if (!obj.activeInHierarchy)
-            {
-                obj.transform.position = position;
-                obj.SetActive(true);
-                return obj;
-            }
+            enemy = enemyPool.Dequeue();
+        }
+        else
+        {
+            enemy = CreateNewEnemy();
         }
 
-        Debug.LogWarning("Pool vacío. Aumenta el tamaño en el Inspector.");
-        return null;
+        enemy.transform.position = position;
+        enemy.transform.rotation = rotation;
+        enemy.SetActive(true);
+
+        return enemy;
     }
 
     public void ReturnEnemy(GameObject enemy)
     {
         enemy.SetActive(false);
+        enemyPool.Enqueue(enemy);
     }
 }

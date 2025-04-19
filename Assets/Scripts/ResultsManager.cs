@@ -21,19 +21,4 @@ public class ResultsManager : MonoBehaviour
         maxScoreText.text = "Max Score: " + Mathf.FloorToInt(scoreRecord.maxScore).ToString();
         minScoreText.text = "Min Score: " + Mathf.FloorToInt(scoreRecord.minScore).ToString();
     }
-
-    public void ExitGame()
-    {
-        UnityEditor.EditorApplication.isPlaying = false;
-        Application.Quit();
-    }
-
-    public void GoToCharacterSelection()
-    {
-        if (GameManager.Instance != null)
-        {
-            Destroy(GameManager.Instance.gameObject);
-        }
-        SceneManager.LoadScene("CharacterSelection");
-    }
 }

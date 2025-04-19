@@ -1,39 +1,40 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-
     [Header("Referencias")]
-    public UI_Manager uiManager;
     public GyroMovement player;
     public StatsPlayers playerStats;
+    public EnemyPool enemyPool;
 
     [Header("Datos del Jugador")]
     public PlayerDataSO playerData;
     public ScoreRecordSO scoreRecord;
 
+    [Header("Eventos")]
+    public UnityEvent<float> onScoreUpdated;
+    public UnityEvent<float> onHealthUpdated;
+    public UnityEvent onPlayerDeath;
+
+    private UI_Manager uiManager;
+    private bool isGameActive;
+
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        uiManager = GetComponent<UI_Manager>();
+        InitializeGame();
     }
 
-    void Start()
+    private void InitializeGame()
     {
         if (StatsPlayers.naveSeleccionada != null)
         {
             playerStats = StatsPlayers.naveSeleccionada;
         }
 
-        if (playerStats != null && playerData != null)
+        if (playerData != null && playerStats != null)
         {
             playerData.currentHealth = playerStats.maxHealth;
             playerData.currentScore = 0f;
@@ -41,49 +42,78 @@ public class GameManager : MonoBehaviour
             if (player != null)
             {
                 player.stats = playerStats;
-                SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
-                if (sr != null)
-                {
-                    sr.color = playerStats.shipColor;
-                }
+                var sr = player.GetComponent<SpriteRenderer>();
+                if (sr != null) sr.color = playerStats.shipColor;
             }
 
-            uiManager.UpdateHealth(playerData.currentHealth);
+            UpdateHealthUI(playerData.currentHealth);
+            isGameActive = true;
         }
     }
 
-    void Update()
+    private void Update()
     {
+        if (!isGameActive) return;
+
         if (playerData != null && playerStats != null)
         {
-            playerData.currentScore += playerStats.scoreSpeed * Time.deltaTime;
-            uiManager.UpdateScore(playerData.currentScore);
-        }
-    }
-
-    public float CurrentHealth
-    {
-        get { return (playerData != null) ? playerData.currentHealth : 0f; }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if (playerData != null)
-        {
-            playerData.currentHealth -= damage;
-            if (playerData.currentHealth < 0)
-                playerData.currentHealth = 0;
-
-            uiManager.UpdateHealth(playerData.currentHealth);
+            // Asegurar que scoreSpeed sea positivo
+            float effectiveSpeed = Mathf.Max(0, playerStats.scoreSpeed);
+            playerData.currentScore += effectiveSpeed * Time.deltaTime;
+            UpdateScoreUI(playerData.currentScore);
         }
     }
 
     public void AddPoints(float points)
     {
-        if (playerData != null)
+        if (!isGameActive) return;
+
+        // Asegurar puntos positivos
+        float pointsToAdd = Mathf.Max(0, points);
+        playerData.currentScore += pointsToAdd;
+        UpdateScoreUI(playerData.currentScore);
+
+        Debug.Log($"Puntos añadidos: {pointsToAdd}. Score total: {playerData.currentScore}");
+    }
+    public void TakeDamage(int damage)
+    {
+        if (!isGameActive) return;
+
+        playerData.currentHealth = Mathf.Max(0, playerData.currentHealth - damage);
+        UpdateHealthUI(playerData.currentHealth);
+        Debug.Log("Si collisona con el enemigo");
+        if (playerData.currentHealth <= 0)
         {
-            playerData.currentScore += points;
-            uiManager.UpdateScore(playerData.currentScore);
+            HandlePlayerDeath();
         }
+    }
+
+    private void UpdateScoreUI(float score)
+    {
+        uiManager?.UpdateScore(score);
+        onScoreUpdated?.Invoke(score);
+    }
+
+    private void UpdateHealthUI(float health)
+    {
+        uiManager?.UpdateHealth(health);
+        onHealthUpdated?.Invoke(health);
+    }
+
+    private void HandlePlayerDeath()
+    {
+        isGameActive = false;
+        onPlayerDeath?.Invoke();
+
+        if (scoreRecord != null)
+        {
+            scoreRecord.TryRegisterNewScore(playerData.currentScore);
+        }
+
+        // Notificar al SceneGlobalManager para cargar Results
+        SceneGlobalManager.Instance?.ShowResults(); // Activa la escena Results (ya cargada)
+                                                    // O si prefieres recargar:
+        player?.gameObject.SetActive(false);
+        // SceneGlobalManager.Instance?.LoadResultsScene();
     }
 }

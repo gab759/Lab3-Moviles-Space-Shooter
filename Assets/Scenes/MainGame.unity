@@ -150,6 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPool: {fileID: 1278164726}
   spawnInterval: 2
+  minY: -3.48
+  maxY: 5.48
 --- !u!4 &217518725
 Transform:
   m_ObjectHideFlags: 0
@@ -567,6 +569,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b448809ed814e894f86c09cecb247966, type: 3}
+--- !u!1 &550354197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 550354199}
+  - component: {fileID: 550354198}
+  m_Layer: 0
+  m_Name: SceneControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &550354198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550354197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cae3540838362d488f3aae5a9e2b73d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &550354199
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550354197}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.005954, y: 6.6907763, z: -0.13752584}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &675953909
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,7 +777,6 @@ MonoBehaviour:
   damageToPlayer: 20
   obstacle: 1
   scoreValue: 50
-  enemyPool: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,13 +989,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da938cce1c2a231478eefab9dd47341b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pools:
-  - prefab: {fileID: 6608728262247967021, guid: ac238150a0735a24482baf3a09cb3cc3, type: 3}
-    size: 10
-    objects: []
-  - prefab: {fileID: 2053188864612648953, guid: 866245b8bb6ef644a86f9c9836a18e1b, type: 3}
-    size: 20
-    objects: []
+  enemyPrefab: {fileID: 2053188864612648953, guid: 866245b8bb6ef644a86f9c9836a18e1b, type: 3}
+  gameManager: {fileID: 1595406149}
+  poolSize: 15
 --- !u!4 &1278164727
 Transform:
   m_ObjectHideFlags: 0
@@ -995,11 +1036,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df562e0cbf04dc84b80fc9144a9aef71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 2031106588}
   player: {fileID: 3538283898409648514}
   playerStats: {fileID: 0}
+  enemyPool: {fileID: 0}
   playerData: {fileID: 11400000, guid: 3b6d6f2daf656c544a482d512cea54e6, type: 2}
   scoreRecord: {fileID: 11400000, guid: 693752dd78a055f4eb1a2a59a449a41f, type: 2}
+  onScoreUpdated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2031106588}
+        m_TargetAssemblyTypeName: UI_Manager, Assembly-CSharp
+        m_MethodName: UpdateScore
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHealthUpdated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2031106588}
+        m_TargetAssemblyTypeName: UI_Manager, Assembly-CSharp
+        m_MethodName: UpdateHealth
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPlayerDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1595406148}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1595406150
 Transform:
   m_ObjectHideFlags: 0
@@ -1569,3 +1655,4 @@ SceneRoots:
   - {fileID: 1278164727}
   - {fileID: 1692917094}
   - {fileID: 436756539}
+  - {fileID: 550354199}
