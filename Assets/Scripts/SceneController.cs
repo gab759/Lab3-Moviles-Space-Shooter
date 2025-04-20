@@ -12,7 +12,6 @@ public class SceneController : MonoBehaviour
         else
         {
             Debug.LogError("SceneGlobalManager no está inicializado.");
-            // Fallback: Carga directa (sin progreso)
             SceneManager.LoadScene("Menu");
         }
     }

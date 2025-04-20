@@ -21,7 +21,7 @@ public class SceneGlobalManager : MonoBehaviour
     [Header("Loading UI (Asignar en SplashScreen)")]
     [SerializeField] private Image _progressBarFill;
     [SerializeField] private TMP_Text _progressText;
-    [SerializeField] private float _minSplashScreenTime = 2f; // Tiempo mínimo en pantalla
+    [SerializeField] private float _minSplashScreenTime = 2f;
 
     private void Awake()
     {
@@ -29,7 +29,6 @@ public class SceneGlobalManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            // Inicia la carga del Menu al iniciar el juego
             StartCoroutine(LoadInitialMenuAsync());
         }
         else
@@ -38,48 +37,47 @@ public class SceneGlobalManager : MonoBehaviour
         }
     }
 
-    // === Carga inicial (SplashScreen -> Menu) ===
+    // (SplashScreen -> Menu)
     private IEnumerator LoadInitialMenuAsync()
     {
-        // 1. Configura UI de carga (si no está asignada)
+        // Configura UI de carga
         if (_progressBarFill == null || _progressText == null)
         {
             FindLoadingUIInScene();
         }
 
-        // 2. Reinicia progreso
+        // Reinicia progreso
         UpdateProgressUI(0f);
 
-        // 3. Simula carga mínima (ej: 2 segundos)
+        // Le da 2 segundos como minimo de tiempo de espera
         float elapsedTime = 0f;
         while (elapsedTime < _minSplashScreenTime)
         {
             elapsedTime += Time.deltaTime;
-            float fakeProgress = Mathf.Clamp01(elapsedTime / _minSplashScreenTime * 0.5f); // 0% -> 50%
+            float fakeProgress = Mathf.Clamp01(elapsedTime / _minSplashScreenTime * 0.5f);
             UpdateProgressUI(fakeProgress);
             yield return null;
         }
 
-        // 4. Carga real del Menu
+        // Carga del Menu
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_menuScene);
         asyncLoad.allowSceneActivation = false;
 
         while (!asyncLoad.isDone)
         {
-            float realProgress = Mathf.Clamp01(asyncLoad.progress / 0.9f); // Ajuste a 0-1
-            float totalProgress = 0.5f + (realProgress * 0.5f); // 50% -> 100%
+            float realProgress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            float totalProgress = 0.5f + (realProgress * 0.5f);
             UpdateProgressUI(totalProgress);
 
             if (asyncLoad.progress >= 0.9f && totalProgress >= 1f)
             {
-                asyncLoad.allowSceneActivation = true; // Activa la escena
+                asyncLoad.allowSceneActivation = true;
             }
 
             yield return null;
         }
     }
 
-    // === Métodos públicos para cambiar de escena ===
     public void LoadMenu()
     {
         StartCoroutine(LoadSceneAsync(_menuScene));
@@ -95,7 +93,6 @@ public class SceneGlobalManager : MonoBehaviour
         StartCoroutine(LoadGameAndResultsAsync());
     }
 
-    // === Carga asincrónica genérica ===
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         // Notifica que comenzó la carga
@@ -107,7 +104,7 @@ public class SceneGlobalManager : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
-            OnLoadingProgressed?.Invoke(progress); // Notifica progreso
+            OnLoadingProgressed?.Invoke(progress);
 
             if (progress >= 0.9f)
             {
@@ -117,20 +114,17 @@ public class SceneGlobalManager : MonoBehaviour
             yield return null;
         }
 
-        OnLoadingFinished?.Invoke(); // Notifica finalización
+        OnLoadingFinished?.Invoke();
     }
 
-    // === Carga de Game + Results (Additive) ===
+    //Carga de Game + Results Aditivamente
     private IEnumerator LoadGameAndResultsAsync()
     {
-        // 1. Carga Game
         yield return StartCoroutine(LoadSceneAsync(_gameScene));
 
-        // 2. Carga Results en additive (sin UI de progreso)
         AsyncOperation asyncLoadResults = SceneManager.LoadSceneAsync(_resultsScene, LoadSceneMode.Additive);
         yield return asyncLoadResults;
 
-        // 3. Oculta Results al inicio
         Scene resultsScene = SceneManager.GetSceneByName(_resultsScene);
         if (resultsScene.IsValid())
         {
@@ -142,16 +136,17 @@ public class SceneGlobalManager : MonoBehaviour
         }
     }
 
-    // === Muestra Results (cuando el jugador pierde) ===
+    // Muestra Results
     public void ShowResults()
     {
         // Activar Results
         Scene resultsScene = SceneManager.GetSceneByName(_resultsScene);
         if (resultsScene.IsValid())
         {
-            foreach (GameObject rootObj in resultsScene.GetRootGameObjects())
+            GameObject[] resultsRootObjects = resultsScene.GetRootGameObjects();
+            for (int i = 0; i < resultsRootObjects.Length; i++)
             {
-                rootObj.SetActive(true);
+                resultsRootObjects[i].SetActive(true);
             }
         }
 
@@ -159,28 +154,16 @@ public class SceneGlobalManager : MonoBehaviour
         Scene gameScene = SceneManager.GetSceneByName(_gameScene);
         if (gameScene.IsValid())
         {
-            foreach (GameObject rootObj in gameScene.GetRootGameObjects())
+            GameObject[] gameRootObjects = gameScene.GetRootGameObjects();
+            for (int j = 0; j < gameRootObjects.Length; j++)
             {
-                rootObj.SetActive(false);
+                gameRootObjects[j].SetActive(false);
             }
         }
     }
 
-    // === Descarga escenas no necesarias ===
-    private void UnloadAllExcept(string sceneToKeep)
-    {
-        int sceneCount = SceneManager.sceneCount;
-        for (int i = 0; i < sceneCount; i++)
-        {
-            Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name != sceneToKeep && scene.name != _splashScreenScene)
-            {
-                SceneManager.UnloadSceneAsync(scene);
-            }
-        }
-    }
 
-    // === Busca la UI de carga en la escena ===
+    //No me fune
     private void FindLoadingUIInScene()
     {
         _progressBarFill = GameObject.Find("ProgressBarFill")?.GetComponent<Image>();
@@ -192,7 +175,7 @@ public class SceneGlobalManager : MonoBehaviour
         }
     }
 
-    // === Actualiza la UI de progreso ===
+    // Update a la UI
     private void UpdateProgressUI(float progress)
     {
         if (_progressBarFill != null)

@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     [Header("Eventos")]
     public UnityEvent<float> onScoreUpdated;
     public UnityEvent<float> onHealthUpdated;
-    public UnityEvent onPlayerDeath;
 
     private UI_Manager uiManager;
     private bool isGameActive;
@@ -57,7 +56,6 @@ public class GameManager : MonoBehaviour
 
         if (playerData != null && playerStats != null)
         {
-            // Asegurar que scoreSpeed sea positivo
             float effectiveSpeed = Mathf.Max(0, playerStats.scoreSpeed);
             playerData.currentScore += effectiveSpeed * Time.deltaTime;
             UpdateScoreUI(playerData.currentScore);
@@ -68,7 +66,6 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameActive) return;
 
-        // Asegurar puntos positivos
         float pointsToAdd = Mathf.Max(0, points);
         playerData.currentScore += pointsToAdd;
         UpdateScoreUI(playerData.currentScore);
@@ -103,17 +100,7 @@ public class GameManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
         isGameActive = false;
-        onPlayerDeath?.Invoke();
-
-        if (scoreRecord != null)
-        {
-            scoreRecord.TryRegisterNewScore(playerData.currentScore);
-        }
-
-        // Notificar al SceneGlobalManager para cargar Results
-        SceneGlobalManager.Instance?.ShowResults(); // Activa la escena Results (ya cargada)
-                                                    // O si prefieres recargar:
+        SceneGlobalManager.Instance?.ShowResults(); 
         player?.gameObject.SetActive(false);
-        // SceneGlobalManager.Instance?.LoadResultsScene();
     }
 }

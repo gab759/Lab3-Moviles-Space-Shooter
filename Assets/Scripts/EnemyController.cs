@@ -11,7 +11,6 @@ public class EnemyController : MonoBehaviour
     private GameManager _gameManager;
     private EnemyPool _enemyPool;
 
-    // Método público para asignar referencias
     public void SetReferences(GameManager gm, EnemyPool pool)
     {
         _gameManager = gm;
