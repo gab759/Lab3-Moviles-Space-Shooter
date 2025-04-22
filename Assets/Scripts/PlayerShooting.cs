@@ -43,7 +43,7 @@ public class PlayerShooting : MonoBehaviour
     {
         if (bulletPool == null || firePoint == null)
         {
-            Debug.LogWarning("Referencias faltantes en PlayerShooting");
+            //Debug.LogWarning("Referencias faltantes en PlayerShooting");
             return;
         }
 

@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour
 
         playerData.currentHealth = Mathf.Max(0, playerData.currentHealth - damage);
         UpdateHealthUI(playerData.currentHealth);
-        Debug.Log("Si collisona con el enemigo");
         if (playerData.currentHealth <= 0)
         {
             HandlePlayerDeath();

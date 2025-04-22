@@ -1,0 +1,3 @@
+C:\Users\Tecsup\Documents\GitHub\Lab3-Moviles-Space-Shooter\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Users\Tecsup\Documents\GitHub\Lab3-Moviles-Space-Shooter\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
+C:\Users\Tecsup\Documents\GitHub\Lab3-Moviles-Space-Shooter\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

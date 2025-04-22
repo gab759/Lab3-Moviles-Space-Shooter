@@ -33,12 +33,12 @@ public class SpawnEnemys : MonoBehaviour
             Random.Range(minY, maxY)
         );
 
-        enemyPool.GetEnemy(spawnPosition, Quaternion.identity);
+        Quaternion rotation = Quaternion.Euler(0f, 0f, 180f);
+        enemyPool.GetEnemy(spawnPosition, rotation);
     }
 
-    // Opcional: Método para cambiar dinámicamente el intervalo
     public void SetSpawnInterval(float newInterval)
     {
-        spawnInterval = Mathf.Max(0.1f, newInterval); // No permitir valores <= 0
+        spawnInterval = Mathf.Max(0.1f, newInterval);
     }
 }
