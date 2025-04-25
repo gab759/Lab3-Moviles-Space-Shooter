@@ -1,0 +1,1 @@
+C:\Users\User\OneDrive\Documentos\GitHub\Lab3-Moviles-Space-Shooter\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\b1sw452t\obj\arm64-v8a

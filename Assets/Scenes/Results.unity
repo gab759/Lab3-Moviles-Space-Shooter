@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20392157, g: 0.2627451, b: 0.45882353, a: 0.972549}
+  m_Color: {r: 0.20392157, g: 0.2627451, b: 0.45882353, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1380,6 +1380,7 @@ MonoBehaviour:
   interactiveButtons:
   - {fileID: 699303171}
   - {fileID: 699811379}
+  - {fileID: 867785215}
   playerSprite: {fileID: 0}
   enemySprites: []
 --- !u!4 &1149831297
@@ -1392,6 +1393,54 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 514.72626, y: 232.06252, z: -3.6304402}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1160964906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1160964908}
+  - component: {fileID: 1160964907}
+  m_Layer: 0
+  m_Name: AudioController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1160964907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160964906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ca9424b2fa27b479b31d83be901d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _compAudioMixer: {fileID: 24100000, guid: 8524294c57352264fbb23faaf7721d6c, type: 2}
+  masterVolumeConfig: {fileID: 11400000, guid: 9696789f7f813174f8694a6f75fff8fe, type: 2}
+  musicVolumeConfig: {fileID: 11400000, guid: 84922c5664f0d9145934f3dbac4354f9, type: 2}
+  sfxVolumeConfig: {fileID: 11400000, guid: 66e16481c7e29b84f9e8f30d94b44564, type: 2}
+--- !u!4 &1160964908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160964906}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 860.4368, y: 580.77563, z: 26844.932}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2014,3 +2063,4 @@ SceneRoots:
   - {fileID: 907777191}
   - {fileID: 1149831297}
   - {fileID: 1611237887}
+  - {fileID: 1160964908}

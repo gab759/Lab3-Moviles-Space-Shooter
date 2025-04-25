@@ -6,8 +6,8 @@ public class GyroMovement : MonoBehaviour
     private Gyroscope gyro;
     private bool gyroEnabled = false;
 
-    private float minY = -3.48f;
-    private float maxY = 5.48f;
+    private float minY = -3.15f;
+    private float maxY = 5.14f;
 
     void Start()
     {

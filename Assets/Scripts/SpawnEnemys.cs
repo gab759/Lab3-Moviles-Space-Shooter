@@ -3,7 +3,7 @@ using UnityEngine;
 public class SpawnEnemys : MonoBehaviour
 {
     [Header("Configuración")]
-    public EnemyPool enemyPool; // Asignar en Inspector
+    public EnemyPool enemyPool;
     [SerializeField] private float spawnInterval = 2f;
     [SerializeField] private float minY = -3.48f;
     [SerializeField] private float maxY = 5.48f;
