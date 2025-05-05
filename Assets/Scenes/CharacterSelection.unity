@@ -2935,11 +2935,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1860150064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bc188a5c288baa4fa5a4a6ce5981d58, type: 3}
+  m_Script: {fileID: 11500000, guid: c5109068ec1a0044a8488d1b32375985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
-  healthText: {fileID: 0}
+  ScoreSo: {fileID: 11400000, guid: 693752dd78a055f4eb1a2a59a449a41f, type: 2}
 --- !u!1 &1879530743
 GameObject:
   m_ObjectHideFlags: 0

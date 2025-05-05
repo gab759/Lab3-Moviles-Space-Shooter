@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] NotificationScores scoreNotifier;
     [Header("Referencias")]
     public GyroMovement player;
     public StatsPlayers playerStats;
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Datos del Jugador")]
     public PlayerDataSO playerData;
-    public ScoreRecordSO scoreRecord;
+    //public ScoreRecordSO scoreRecord;
 
     [Header("Eventos")]
     public UnityEvent<float> onScoreUpdated;
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
             float effectiveSpeed = Mathf.Max(0, playerStats.scoreSpeed);
             playerData.currentScore += effectiveSpeed * Time.deltaTime;
             UpdateScoreUI(playerData.currentScore);
+            scoreNotifier.SetCurrentScore(playerData.currentScore);
         }
     }
 

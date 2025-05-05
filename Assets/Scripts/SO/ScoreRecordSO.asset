@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b87d0e629fc814d9e762015395d96f, type: 3}
   m_Name: ScoreRecordSO
   m_EditorClassIdentifier: 
-  maxScore: 0
+  maxScore: 100
   minScore: Infinity
