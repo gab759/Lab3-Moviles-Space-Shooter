@@ -12,7 +12,7 @@ public class SceneGlobalManager : MonoBehaviour
     public static event Action<float> OnLoadingProgressed;
     public static event Action OnLoadingFinished;
     [Header("Scene Names")]
-    [SerializeField] private string _splashScreenScene = "SplashScreen";
+    //[SerializeField] private string _splashScreenScene = "SplashScreen";
     [SerializeField] private string _menuScene = "Menu";
     [SerializeField] private string _characterSelectScene = "CharacterSelect";
     [SerializeField] private string _gameScene = "Game";
