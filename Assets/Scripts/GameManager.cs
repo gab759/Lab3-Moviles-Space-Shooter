@@ -1,7 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-
+using UnityEngine.SceneManagement;
+using TMPro;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] NotificationScores scoreNotifier;
@@ -9,10 +10,9 @@ public class GameManager : MonoBehaviour
     public GyroMovement player;
     public StatsPlayers playerStats;
     public EnemyPool enemyPool;
-
+    public TextMeshProUGUI uiText;
     [Header("Datos del Jugador")]
     public PlayerDataSO playerData;
-    //public ScoreRecordSO scoreRecord;
 
     [Header("Eventos")]
     public UnityEvent<float> onScoreUpdated;
@@ -26,7 +26,30 @@ public class GameManager : MonoBehaviour
         uiManager = GetComponent<UI_Manager>();
         InitializeGame();
     }
+    void Start()
+    {
+        WebGLInput.captureAllKeyboardInput = true; // Lo dejas activo por defecto
+    }
 
+    // Puedes agregar métodos públicos para cambiarlo desde JS si quieres:
+    public void EnableKeyboardInput()
+    {
+        WebGLInput.captureAllKeyboardInput = true;
+    }
+
+    public void DisableKeyboardInput()
+    {
+        WebGLInput.captureAllKeyboardInput = false;
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene("MainGame");
+    }
+    public void ChangeText(string text)
+    {   
+        uiText.text = text;
+    }
     private void InitializeGame()
     {
         if (StatsPlayers.naveSeleccionada != null)
